@@ -9,3 +9,7 @@ class Brands:
 #--------------------------------------------------------------------
 #                           METHODS
 #--------------------------------------------------------------------
+
+    def about_me(self):
+        """Print in the terminal the brand"""
+        print("Brands tags : "+self.brands_tags)

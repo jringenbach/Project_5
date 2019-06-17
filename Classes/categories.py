@@ -50,9 +50,11 @@ class Categorie:
         """Set the products list for this categorie"""
 
         for product in products_json:
-            #If the product has a product name and a nutrition grade
-            if "product_name" in product.keys() and "nutrition_grades" in product.keys():
-                self.products.append(Products(product["product_name"], product["url"], product["nutrition_grades"]))
+            #If the product has a product name, a brand and a nutrition grade
+            if "product_name" in product.keys() and "nutrition_grades" in product.keys() \
+            and "brands" in product.keys():
+                self.products.append(Products(product["product_name"], product["url"], \
+                product["nutrition_grades"], product["brands"]))
 
         for product in self.products:
             product.about_me()
