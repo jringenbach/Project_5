@@ -1,0 +1,3 @@
+boissons
+confiseries
+viandes

@@ -5,6 +5,7 @@
 #--------------------------------------------------------------------
 
 #Project classes and libraries
+from Classes.categories import Categorie
 from Classes.link_api import Link_API
 from Classes.link_db import Link_DB
 from Classes.menu import Menu
@@ -46,11 +47,15 @@ while not exit_program:
 
     #If the user choses to insert datas in database
     if main_menu_input == "1":
-        print("Insert data")
-        link = Link_API()
-        urls = ["pizzas", "sandwich"]
-        answer = link.request_from_list(urls)
-        print(answer)
+        #We read the categories in categories.txt
+        with open("categories.txt", "r", encoding="utf-8") as categories_file:
+            list_categories = categories_file.readlines()
+            print(list_categories)
+        
+        #We get every products for each categorie
+        for item in list_categories:
+            categorie = Categorie(item)
+            categorie.get_products_by_categorie()
         
 
     #If user chose to exit the program
