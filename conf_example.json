@@ -1,0 +1,9 @@
+{
+    "connexion_info" : {
+        "host" : "",
+        "database" : "",
+        "user" : "",
+        "password" : ""
+    },
+    "language" : "fr"
+}

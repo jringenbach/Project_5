@@ -1,0 +1,16 @@
+{
+    "fr":{
+        "language_menu" : "Quelle langue voulez-vous utiliser? Taper fr pour francais ou en pour anglais.",
+        "main_menu" : {
+            "1" : "1. Base de données",
+            "2" : "2. Mon programme nutritionnel"
+        }
+    },
+    "en":{
+        "language_menu" : "Which language do you want to use? Write fr for french or en for english.",
+        "main_menu" : {
+            "1" : "1. Database",
+            "2" : "My nutritional program"
+        }
+    }
+}
