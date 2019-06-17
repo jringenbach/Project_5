@@ -4,15 +4,19 @@
 #                           IMPORT
 #--------------------------------------------------------------------
 
+#Own classes and libraries
+from Classes.nutrition_grade import Nutrition_grade
+
 #Python libraries
 import requests
 
 class Products:
     """Define a product as it is defined in openfoodfacts"""
 
-    def __init__(self, product_name_fr, url):
+    def __init__(self, product_name_fr, url, nutrition_grade):
         self.product_name_fr = product_name_fr
         self.url = url
+        self.nutrition_grade = Nutrition_grade(nutrition_grade)
 
 #--------------------------------------------------------------------
 #                           METHODS
@@ -23,7 +27,7 @@ class Products:
 
         print("Product name : "+self.product_name_fr)
         print("url : "+self.url)
-
+        self.nutrition_grade.about_me()
 
 
     def set_attributes(self,product_name_fr, url):
@@ -31,6 +35,7 @@ class Products:
 
         self.product_name_fr = product_name_fr
         self.url = url
+
 
 
 

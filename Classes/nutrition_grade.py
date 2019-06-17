@@ -9,3 +9,7 @@ class Nutrition_grade:
 #--------------------------------------------------------------------
 #                           METHODS
 #--------------------------------------------------------------------
+
+    def about_me(self):
+        """Print in the terminal the nutrition grade"""
+        print("Nutrition grade : "+self.nutrition_grade)
