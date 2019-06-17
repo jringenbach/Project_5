@@ -1,10 +1,18 @@
 # coding : utf-8
 
-#Python library
+#--------------------------------------------------------------------
+#                           IMPORT
+#--------------------------------------------------------------------
+
+#Python libraries
 import json
 
 class Menu:
-    """Handles menus of the program and all their methods"""
+    """Handles menus of the program and all their methods
+
+    language : language of the menu (str)
+    options : options of the menu that will be displayed (str or dict)
+    num_options : number of options in the menu (int)"""
 
 
 
@@ -12,6 +20,11 @@ class Menu:
         """Initialization of a menu"""
         self.language = self.search_language_used()
         self.options = self.get_options_from_json(menu_name)
+        if type(self.options) is str:
+            self.num_options = 1
+        else:
+            self.num_options = len(self.options)
+        print(self.num_options)
 
 
 
@@ -31,7 +44,7 @@ class Menu:
                 file_loaded = json.load(file)
                 file.close()
                 
-        #If the file couldn't be opened   
+        #If the file couldn't be opened
         except:
             print("Couldn't open file : conf.json")
 
@@ -72,8 +85,6 @@ class Menu:
         try:
             with open("language.json", encoding="utf-8") as menu_json_file:
                 menu_json = json.load(menu_json_file)
-                print(menu_json)
-                print(type(menu_json))
                 menu_json_file.close()
                 return menu_json[self.language][menu_name]
 

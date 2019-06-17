@@ -14,7 +14,7 @@ class Link_DB:
 
 
 
-    def connexion_with_conf_file(file_path):
+    def connexion_with_conf_file(self, file_path):
         """Connects a user to the database by reading its connexion information in a json configuration file.
 
         file_name : path and name of the json configuration file

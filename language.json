@@ -3,14 +3,26 @@
         "language_menu" : "Quelle langue voulez-vous utiliser? Taper fr pour francais ou en pour anglais.",
         "main_menu" : {
             "1" : "Base de données",
-            "2" : "Mon programme nutritionnel"
+            "2" : "Mon programme nutritionnel",
+            "3" : "Options",
+            "4" : "Quitter"
+        },
+        "database_menu" : {
+            "1" : "Insérer des données depuis openfoodfacts",
+            "2" : "Effacer les tables de la base de données"
         }
     },
     "en":{
         "language_menu" : "Which language do you want to use? Write fr for french or en for english.",
         "main_menu" : {
             "1" : "Database",
-            "2" : "My nutritional program"
+            "2" : "My nutritional program",
+            "3" : "Options",
+            "4" : "Exit"
+        },
+        "database_menu" : {
+            "1" : "Insert datas from openfoodfacts",
+            "2" : "Delete tables in the database"
         }
     }
 }
