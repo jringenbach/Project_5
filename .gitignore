@@ -1,5 +1,6 @@
 conf.json
 conf_init.json
 openfoodfacts.csv
+Test/
 __pycache__
 Classes/__pycache__

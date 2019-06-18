@@ -11,10 +11,15 @@ DROP FOREIGN KEY fk_id_products_categories,
 DROP FOREIGN KEY fk_id_categories;
 
 DROP TABLE IF EXISTS Products_Brands;
+
 DROP TABLE IF EXISTS Products_Nutrition_grade;
+
 DROP TABLE IF EXISTS Products_Categories;
 
 DROP TABLE IF EXISTS Brands;
+
 DROP TABLE IF EXISTS Categories;
+
 DROP TABLE IF EXISTS Nutrition_grade;
+
 DROP TABLE IF EXISTS Products;

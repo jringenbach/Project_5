@@ -60,8 +60,13 @@ while not exit_program:
                 categorie.get_products_by_categorie()
                 list_categories.append(categorie)
 
+            #We create a dict with all datas and we clean the datas
             openfoodfacts_dict = data_treatment.get_list_of_all_objects(list_categories)
             data_treatment.find_all_duplicates(openfoodfacts_dict)
+
+            #We create the tables in the database if they don't exist
+            link_to_database = Link_DB()
+            link_to_database.execute_sql_script_from_file("SQL/create_tables.sql")
 
         #Exit the program from database menu
         elif database_menu_input == "4":
