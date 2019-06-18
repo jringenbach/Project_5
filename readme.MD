@@ -46,8 +46,14 @@ read_txt.py : contient les méthodes pour récupérer des informations depuis un
 requirements.txt : indique les bibliothèques python à installer
 run.py : permet de lancer le programme
 
+Schema : dossier contenant les schémas relatifs à la conception du programme
+	- MLD-v1 : Première version du MLD de la base de données
+SQL: dossier contenant les scripts SQL pour intéragir avec la base de données MySQL openfoodfacts
+	- create_tables.sql : scripts de création des tables
+	- delete_tables.sql : script de suppression des tables
+
 -------------------------
 Utilisation du programme
 -------------------------
 Installer les bibliothèques python indiquées dans requirements.txt
-Renommer conf_example.json en conf.json et changer les informations de connexion.
+Renommer conf_example.json en conf.json et changer les informations de connexion à la BDD.
