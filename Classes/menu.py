@@ -6,6 +6,7 @@
 
 #Python libraries
 import json
+import os
 
 class Menu:
     """Handles menus of the program and all their methods
@@ -91,6 +92,19 @@ class Menu:
         except:
             print("Couldn't open file : language.json")
 
+    
+
+    def input(self):
+        """Display the menu while the user hasn't chosen the right option"""
+        menu_input = 0
+
+        #While the user chose the wrong main menu, we display it again
+        while int(menu_input) < 1 or int(menu_input) > self.num_options:
+            self.display()
+            menu_input = input("=> ")
+            os.system("clear")
+
+        return menu_input
 
 
     def search_language_used(self):

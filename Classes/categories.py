@@ -44,20 +44,18 @@ class Categorie:
         #We set self.products
         self.set_products_list(products_json["products"])
 
-    
+
 
     def set_products_list(self, products_json):
         """Set the products list for this categorie"""
 
         for product in products_json:
-            #If the product has a product name, a brand and a nutrition grade
+            #If the product has a product name, a brand and a nutrition grade, we add it to the
+            #products list
             if "product_name" in product.keys() and "nutrition_grades" in product.keys() \
             and "brands" in product.keys():
                 self.products.append(Products(product["product_name"], product["url"], \
                 product["nutrition_grades"], product["brands"]))
-
-        for product in self.products:
-            product.about_me()
 
 
 

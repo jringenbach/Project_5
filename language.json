@@ -9,7 +9,9 @@
         },
         "database_menu" : {
             "1" : "Insérer des données depuis openfoodfacts",
-            "2" : "Effacer les tables de la base de données"
+            "2" : "Effacer les tables de la base de données",
+            "3" : "Retour",
+            "4" : "Quitter"
         }
     },
     "en":{
@@ -22,7 +24,9 @@
         },
         "database_menu" : {
             "1" : "Insert datas from openfoodfacts",
-            "2" : "Delete tables in the database"
+            "2" : "Delete tables in the database",
+            "3" : "Back",
+            "4" : "Exit"
         }
     }
 }

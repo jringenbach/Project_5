@@ -32,6 +32,27 @@ class Products:
         self.nutrition_grade.about_me()
         self.brands.about_me()
 
+    
+
+    def find_duplicates_in_list(self, list_products):
+        """Find if the product already exists in a list"""
+
+        for product in list_products:
+            if self.is_equal(product):
+                list_products.remove(product)
+
+
+    def is_equal(self, other_product):
+        """Test if this product is equal to an other product. Return True if equal, else it returns False"""
+
+        if self.product_name_fr == other_product.product_name_fr and \
+        self.url == other_product.url:
+            return True
+
+        else:
+            return False
+
+
 
     def set_attributes(self,product_name_fr, url):
         """Set attributes of a product"""

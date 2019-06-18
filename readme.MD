@@ -31,9 +31,18 @@ retrouver ses aliments favoris.
 -------------------------
 Fichiers
 -------------------------
+brands.py : contient la classe Brands
+categories.py : contient la classe Categorie
+conf.json : contient les configurations relatives au programme
+data_treatment.py : contient les méthodes pour nettoyer les données et les préparer à l'insertion dans la base de données
+ingredients.py : Contient la classe Ingredients
 language.json : contient les textes des menus en anglais et en français
+link_api : Permet de faire des requêtes sur l'API d'openfoodfacts (Classe : Link_API)
 link_db.py : Méthodes de connexion à la base de données mysql ( Classe : Link_DB)
 menu.py : Classe Menu permettant de gérer l'affichage des menus du programme
+nutrition_grade.py : contient la classe Nutrition_grade
+products.py : contient la classe Products
+read_txt.py : contient les méthodes pour récupérer des informations depuis un fichier texte
 requirements.txt : indique les bibliothèques python à installer
 run.py : permet de lancer le programme
 

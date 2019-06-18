@@ -11,6 +11,9 @@ from Classes.link_db import Link_DB
 from Classes.menu import Menu
 from Classes.products import Products
 
+import data_treatment
+import read_txt
+
 #Python classes and libraries
 import os
 
@@ -37,25 +40,32 @@ language_menu.change_language(language)
 while not exit_program:
     #We instanciate the main menu
     main_menu = Menu("main_menu")
-    main_menu_input = 0
+    main_menu_input = main_menu.input()
 
-    #While the user chose the wrong main menu, we display it again
-    while int(main_menu_input) < 1 or int(main_menu_input) > main_menu.num_options:
-        main_menu.display()
-        main_menu_input = input("=> ")
-        os.system("clear")
-
-    #If the user choses to insert datas in database
+    #If the user choses the database menu
     if main_menu_input == "1":
-        #We read the categories in categories.txt
-        with open("categories.txt", "r", encoding="utf-8") as categories_file:
-            list_categories = categories_file.readlines()
-            print(list_categories)
-        
-        #We get every products for each categorie
-        for item in list_categories:
-            categorie = Categorie(item)
-            categorie.get_products_by_categorie()
+
+        database_menu = Menu("database_menu")
+        database_menu_input = database_menu.input()
+
+        #If user choses to insert data in database from openfoodfacts
+        if database_menu_input == "1":
+            #List of Categories Object
+            list_categories = list()
+            list_categories_txt = read_txt.get_list_from_txt_file("categories.txt")
+            
+            #We get every products for each categorie
+            for item in list_categories_txt:
+                categorie = Categorie(item)
+                categorie.get_products_by_categorie()
+                list_categories.append(categorie)
+
+            openfoodfacts_dict = data_treatment.get_list_of_all_objects(list_categories)
+            data_treatment.find_all_duplicates(openfoodfacts_dict)
+
+        #Exit the program from database menu
+        elif database_menu_input == "4":
+            exit_program = True
         
 
     #If user chose to exit the program
@@ -63,5 +73,3 @@ while not exit_program:
         exit_program = True
 
 
-
-#Link_DB.connexion_with_conf_file("conf.json")
