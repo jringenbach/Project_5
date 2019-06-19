@@ -18,7 +18,30 @@ class Link_DB:
 
 
     def __init__(self):
-        DATABASE_URL = str()
+        self.DATABASE_URL = str()
+
+
+
+    def execute_sql_script_from_file(self, file_path):
+        """Execute a sql script read from a file to the database
+        file_path : path to the sql script that we want to read (str)"""
+
+        #We try to create the connexion to the database
+        connexion = self.set_database_url("conf.json")
+        db = records.Database(connexion)
+
+        #We read the sql script
+        sql_script = read_txt.get_text_from_file(file_path)
+        sql_script = sql_script.split("\n\n")
+        print(sql_script)
+
+        for script in sql_script:
+            db.query(script)
+
+
+
+    def insert_data_to_database(self, data_dict):
+        """Insert data into the database"""
 
 
 
@@ -42,26 +65,12 @@ class Link_DB:
                 user_db = connexion_info["connexion_info"]["user"]
                 password_db = connexion_info["connexion_info"]["password"]
 
-                DATABASE_URL="mysql+mysqlconnector://"+user_db+":"+password_db+"@"+host_db+":3306/openfoodfacts?charset=utf8"
-                return DATABASE_URL
+                self.DATABASE_URL="mysql+mysqlconnector://"+user_db+":"+password_db+"@"+host_db+":3306/openfoodfacts?charset=utf8"
+                return self.DATABASE_URL
 
 
 
-    def execute_sql_script_from_file(self, file_path):
-        """Execute a sql script read from a file to the database
-        file_path : path to the sql script that we want to read (str)"""
 
-        #We try to create the connexion to the database
-        connexion = self.set_database_url("conf.json")
-        db = records.Database(connexion)
-
-        #We read the sql script
-        sql_script = read_txt.get_text_from_file(file_path)
-        sql_script = sql_script.split("\n\n")
-        print(sql_script)
-
-        for script in sql_script:
-            db.query(script)
 
 
 

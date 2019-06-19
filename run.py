@@ -67,6 +67,7 @@ while not exit_program:
             #We create the tables in the database if they don't exist
             link_to_database = Link_DB()
             link_to_database.execute_sql_script_from_file("SQL/create_tables.sql")
+            link_to_database.insert_data_to_database(openfoodfacts_dict)
 
         #Exit the program from database menu
         elif database_menu_input == "4":
