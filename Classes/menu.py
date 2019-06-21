@@ -8,6 +8,7 @@
 import json
 import os
 
+
 class Menu:
     """Handles menus of the program and all their methods
 

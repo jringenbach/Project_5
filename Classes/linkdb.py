@@ -10,7 +10,7 @@ import records
 
 
 
-class Link_DB:
+class LinkDB:
     """Contains information to connect to the database
     
     DATABASE_URL : URL used to connect to the MySQL Database"""
@@ -28,20 +28,39 @@ class Link_DB:
 
         #We try to create the connexion to the database
         connexion = self.set_database_url("conf.json")
-        db = records.Database(connexion)
+        db = records.Database(connexion) #Reading DATABASE_URL
 
         #We read the sql script
         sql_script = read_txt.get_text_from_file(file_path)
         sql_script = sql_script.split("\n\n")
-        print(sql_script)
+        print("Reading the SQL script")
 
+        i = 0
         for script in sql_script:
+            i += 1
+            print("Executing script number "+str(i))
             db.query(script)
 
 
 
-    def insert_data_to_database(self, data_dict):
+    def insert_datas_to_database(self, data_dict):
         """Insert data into the database"""
+
+
+
+    def link_classes_to_orm(self, openfoodfacts_dict):
+        """Instanciate ORM classes from data classes in openfoodfacts"""
+        list_categorie_db = list()
+        list_products_db = list()
+        list_nutrition_grade_db = list()
+        list_brands_db = list()
+
+        for categorie in openfoodfacts_dict["categories"]:
+            categorie.about_me()
+            for product in categorie.products:
+                product.about_me()
+
+
 
 
 

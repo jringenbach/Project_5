@@ -5,20 +5,23 @@
 #--------------------------------------------------------------------
 
 #Own classes and libraries
-from Classes.brands import Brands
+from Classes.brand import Brand
 from Classes.nutrition_grade import Nutrition_grade
+
 
 #Python libraries
 import requests
 
-class Products:
+class Product:
     """Define a product as it is defined in openfoodfacts"""
 
-    def __init__(self, product_name_fr, url, nutrition_grade, brands):
+    def __init__(self, code, product_name_fr, url, nutrition_grade, brands):
+
+        self.code = code
         self.product_name_fr = product_name_fr
         self.url = url
         self.nutrition_grade = Nutrition_grade(nutrition_grade)
-        self.brands = Brands(brands)
+        self.brands = Brand(brands)
 
 #--------------------------------------------------------------------
 #                           METHODS
@@ -26,11 +29,14 @@ class Products:
 
     def about_me(self):
         """Print on the terminal information about the product itself"""
-
-        print("Product name : "+self.product_name_fr)
-        print("url : "+self.url)
-        self.nutrition_grade.about_me()
-        self.brands.about_me()
+        try:
+            print("Product name : "+self.product_name_fr)
+            print("url : "+self.url)
+            self.nutrition_grade.about_me()
+            self.brands.about_me()
+        
+        except UnicodeEncodeError as unicode_encode_error:
+            print("Unicode Encode Error")
 
     
 

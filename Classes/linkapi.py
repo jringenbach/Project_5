@@ -7,7 +7,7 @@
 #Python libraries
 import requests
 
-class Link_API:
+class LinkAPI:
     """Allow to request openfoodfacts API"""
 
     def __init__(self):

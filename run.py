@@ -5,11 +5,11 @@
 #--------------------------------------------------------------------
 
 #Project classes and libraries
-from Classes.categories import Categorie
-from Classes.link_api import Link_API
-from Classes.link_db import Link_DB
+from Classes.categorie import Categorie
+from Classes.linkapi import LinkAPI
+from Classes.linkdb import LinkDB
 from Classes.menu import Menu
-from Classes.products import Products
+from Classes.product import Product
 
 import data_treatment
 import read_txt
@@ -55,8 +55,8 @@ while not exit_program:
             list_categories_txt = read_txt.get_list_from_txt_file("categories.txt")
             
             #We get every products for each categorie
-            for item in list_categories_txt:
-                categorie = Categorie(item)
+            for categorie_str in list_categories_txt:
+                categorie = Categorie(categorie_str)
                 categorie.get_products_by_categorie()
                 list_categories.append(categorie)
 
@@ -65,9 +65,16 @@ while not exit_program:
             data_treatment.find_all_duplicates(openfoodfacts_dict)
 
             #We create the tables in the database if they don't exist
-            link_to_database = Link_DB()
-            link_to_database.execute_sql_script_from_file("SQL/create_tables.sql")
-            link_to_database.insert_data_to_database(openfoodfacts_dict)
+            link_to_database = LinkDB()
+
+            #We try to execute the "creation tables" script
+            try:
+                link_to_database.execute_sql_script_from_file("SQL/create_tables.sql")
+            except:
+                print("Tables already exist.")
+            finally:
+                link_to_database.link_classes_to_orm(openfoodfacts_dict)
+                link_to_database.insert_datas_to_database(openfoodfacts_dict)
 
         #Exit the program from database menu
         elif database_menu_input == "4":
