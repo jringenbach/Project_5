@@ -1,6 +1,6 @@
 # coding : utf-8
 
-class Nutrition_grade:
+class Nutritiongrade:
     """Grade that represents how healthy is a product. It goes from a to e."""
 
     def __init__(self, nutrition_grade):
@@ -17,7 +17,8 @@ class Nutrition_grade:
 
 
     def find_duplicates_in_list(self, list_nutrition_grade):
-        """Find if the nutrition_grade already exists in a list"""
+        """Find if the nutrition_grade already exists in a list
+        list_nutrition_grade : list of nutrition grades (list)"""
 
         for nutrition_grade in list_nutrition_grade:
             if self.is_equal(nutrition_grade):

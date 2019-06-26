@@ -1,18 +1,38 @@
 # coding : utf-8
 
+
+from sqlalchemy.exc import IntegrityError
+from sqlalchemy.exc import ProgrammingError
+import records
+
+
 class BrandDB:
     """Allow to insert data in brands table in openfoodfacts database
-    id_brands : unique identifier of the brands (int)
-    brands_tags : name of the brands (str)    
-    nb_brands : number of brands instanciated"""
+    brand_object : Brand Object from Classes (Brand)    """
 
-    nb_brands = 0
-    def __init__(self, id_brands, brands_tags):
-        BrandDB.nb_brands += 1
+    def __init__(self, brand_object):
 
-        #If id_brands is null, we set the id to the nth brands_db instanciated
-        if id_brands is None:
-            self.id_brands = BrandDB.nb_brands
-        else:
-            self.id_brands = id_brands
-        self.brands_tags = brands_tags
+        self.brand_tags = brand_object.brand_tags
+
+#--------------------------------------------------------------------
+#                           METHODS
+#--------------------------------------------------------------------
+
+
+
+    def insert_to_database(self, db):
+        """Insert into database this brand
+        db : records.Connexion object"""
+
+        insert_query = "INSERT INTO brand (brand_tags) VALUES (\'"+self.brand_tags+"\');"
+
+        #We try to insert this brand into the database
+        try:
+            db.query(insert_query)
+
+        #If the primary key for this brand already exists
+        except IntegrityError:
+            print(self.brand_tags+" is already in database.")
+
+        except ProgrammingError:
+            print("There was a programming error while inserting : "+self.brand_tags)

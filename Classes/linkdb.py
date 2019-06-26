@@ -1,6 +1,14 @@
 # coding : utf-8
 
+#--------------------------------------------------------------------
+#                           IMPORT
+#--------------------------------------------------------------------
+
 #Own libraries
+from ORM.branddb import BrandDB
+from ORM.categoriedb import CategorieDB
+from ORM.nutritiongradedb import NutritiongradeDB
+from ORM.productdb import ProductDB
 import read_txt
 
 #Python libraries
@@ -19,6 +27,13 @@ class LinkDB:
 
     def __init__(self):
         self.DATABASE_URL = str()
+        self.db = None
+
+
+
+#--------------------------------------------------------------------
+#                           METHODS
+#--------------------------------------------------------------------
 
 
 
@@ -28,7 +43,7 @@ class LinkDB:
 
         #We try to create the connexion to the database
         connexion = self.set_database_url("conf.json")
-        db = records.Database(connexion) #Reading DATABASE_URL
+        self.db = records.Database(connexion) #Reading DATABASE_URL
 
         #We read the sql script
         sql_script = read_txt.get_text_from_file(file_path)
@@ -39,7 +54,7 @@ class LinkDB:
         for script in sql_script:
             i += 1
             print("Executing script number "+str(i))
-            db.query(script)
+            self.db.query(script)
 
 
 
@@ -49,16 +64,31 @@ class LinkDB:
 
 
     def link_classes_to_orm(self, openfoodfacts_dict):
-        """Instanciate ORM classes from data classes in openfoodfacts"""
-        list_categorie_db = list()
-        list_products_db = list()
-        list_nutrition_grade_db = list()
-        list_brands_db = list()
+        """Instanciate ORM classes from data classes in openfoodfacts
+        
+        openfoodfacts_dict : dictionary that contains all categories and their products (dict)"""
 
+
+        #For each categorie, we will set the classes from the ORM in order to insert everything in the database
         for categorie in openfoodfacts_dict["categories"]:
-            categorie.about_me()
+            categoriedb_to_insert = CategorieDB(categorie)
+            categoriedb_to_insert.insert_to_database(self.db)
             for product in categorie.products:
-                product.about_me()
+                
+                #We instanciate a NutritiongradeDB object to insert into database
+                nutritiongradedb_to_insert = NutritiongradeDB(product.nutrition_grade)
+                nutritiongradedb_to_insert.insert_to_database(self.db)
+
+                #We instanciate a productdb object to insert into database
+                productdb_to_insert = ProductDB()
+                productdb_to_insert.set_productdb_from_product(product)
+                productdb_to_insert.about_me()
+                productdb_to_insert.insert_to_database(self.db)
+
+                #We instanciate a BrandDB object
+                branddb_to_insert = BrandDB(product.brands)
+                branddb_to_insert.insert_to_database(self.db)
+
 
 
 

@@ -54,16 +54,14 @@ class Categorie:
             "tagtype_0" : "categories",
             "tag_contains_0" : "contains",
             "tag_0" : self.categorie_name,
-            "page_size" : "100"
+            "page_size" : "50"
         }
 
         #We try to request openfoodfacts to get all products from this categorie as a json
         #We use an environment variable DATABASE_URL
         try:
             products_json = requests.get(Categorie.DATABASE_URL, params=params)
-            print(products_json.encoding)
             products_json.encoding = "utf-8"
-            print(products_json.encoding)
             products_json = products_json.json()
             self.set_products_list(products_json["products"])
 

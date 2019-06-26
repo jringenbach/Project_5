@@ -27,7 +27,7 @@ exit_program = False
 language_menu = Menu("language_menu")
 language = str()
 
-#While the user doesn't chose fr or en, we keep asking him the language
+#While the user doesn't chose "fr" or "en", we keep asking him the language
 while(language != "fr" and language != "en"):
     language_menu.display()
     language = input(" => ")
@@ -57,12 +57,12 @@ while not exit_program:
             #We get every products for each categorie
             for categorie_str in list_categories_txt:
                 categorie = Categorie(categorie_str)
-                categorie.get_products_by_categorie()
+                categorie.get_products_by_categorie() #Request API for this categorie and get the products
                 list_categories.append(categorie)
 
             #We create a dict with all datas and we clean the datas
             openfoodfacts_dict = data_treatment.get_list_of_all_objects(list_categories)
-            data_treatment.find_all_duplicates(openfoodfacts_dict)
+            data_treatment.clean_datas(openfoodfacts_dict)
 
             #We create the tables in the database if they don't exist
             link_to_database = LinkDB()

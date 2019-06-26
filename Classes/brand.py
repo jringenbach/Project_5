@@ -2,11 +2,11 @@
 
 class Brand:
     """Brand of a product
-    self.brands_tags : name of the brand (str)"""
+    brands_tags : name of the brand (str)"""
 
-    def __init__(self, brands_tags):
+    def __init__(self, brand_tags):
 
-        self.brands_tags = brands_tags
+        self.brand_tags = brand_tags
 
 #--------------------------------------------------------------------
 #                           METHODS
@@ -15,7 +15,7 @@ class Brand:
     def about_me(self):
         """Print in the terminal the brand"""
 
-        print("Brands tags : "+self.brands_tags)
+        print("Brands tags : "+self.brand_tags)
 
 
 
@@ -28,12 +28,12 @@ class Brand:
 
 
 
-    def is_equal(self, other_brands):
+    def is_equal(self, other_brand):
         """Test if this brand is equal to an other brand in the list.
         Return True if equal, else it returns False
-        other_brands : Brands Object"""
+        other_brand : Brands Object"""
 
-        if self.brands_tags == other_brands.brands_tags:
+        if self.brand_tags == other_brand.brand_tags:
             return True
         else:
             return False  

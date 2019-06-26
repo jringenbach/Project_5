@@ -1,20 +1,30 @@
 # coding : utf-8
 
+import records
+
+
 class CategorieDB:
     """Allow to insert data in Categories table in openfoodfacts database
-    id_categorie : unique identifier of the categories (int)
-    categorie_name : name of the categories (str)
-    nb_categorie : number of Categories_DB instanciated (int)"""
+    categorie_name : name of the categories (str)"""
 
-    nb_categorie = 0
-    def __init__(self, id_categorie, categorie_name):
-        CategorieDB.nb_categorie += 1
-
-        #If id_categorie is null, we set id_categorie to the nth Categories_DB instanciated
-        if id_categorie is None:
-            self.id_categorie = CategorieDB.nb_categorie
-        else:
-            self.id_categorie = id_categorie
+    def __init__(self, categorie_object):
             
-        self.categorie_name = categorie_name
+        self.categorie_name = categorie_object.categorie_name
+
+
+#--------------------------------------------------------------------
+#                           METHODS
+#--------------------------------------------------------------------
+    
+
+
+    def insert_to_database(self, db):
+        """Insert categories data into database
+        db : records.Database Object"""
+
+        print("Inserting "+self.categorie_name+" to database.")
+        db.query("INSERT INTO categorie (categorie_name) VALUES (\'"+self.categorie_name+"\');")
+
+
+
         
