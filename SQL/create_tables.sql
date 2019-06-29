@@ -2,6 +2,12 @@ CREATE DATABASE IF NOT EXISTS openfoodfacts;
 
 USE openfoodfacts;
 
+CREATE TABLE IF NOT EXISTS Store(
+id_store INT AUTO_INCREMENT PRIMARY KEY,
+name_store VARCHAR(30) NOT NULL
+)
+ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 CREATE TABLE IF NOT EXISTS Brand(
 id_brand INT AUTO_INCREMENT PRIMARY KEY,
 brand_tags VARCHAR(80) NOT NULL)
@@ -38,6 +44,16 @@ ENGINE=InnoDB DEFAULT CHARSET=utf8;
 ALTER TABLE ProductBrand
 ADD CONSTRAINT fk_barcode_brand FOREIGN KEY (barcode) REFERENCES Product(barcode),
 ADD CONSTRAINT fk_id_brand FOREIGN KEY (id_brand) REFERENCES Brand(id_brand);
+
+CREATE TABLE IF NOT EXISTS ProductStore(
+barcode VARCHAR(20),
+id_store INT
+)
+ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+ALTER TABLE ProductStore
+ADD CONSTRAINT fk_barcode_store FOREIGN KEY (barcode) REFERENCES Product(barcode),
+ADD CONSTRAINT fk_id_store FOREIGN KEY (id_store) REFERENCES Store(id_store);
 
 
 CREATE TABLE IF NOT EXISTS ProductCategorie(

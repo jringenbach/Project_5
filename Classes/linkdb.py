@@ -9,8 +9,10 @@ from ORM.branddb import BrandDB
 from ORM.categoriedb import CategorieDB
 from ORM.nutritiongradedb import NutritiongradeDB
 from ORM.productdb import ProductDB
-from ORM.productcategoriedb import ProductcategorieDB
 from ORM.productbranddb import ProductbrandDB
+from ORM.productcategoriedb import ProductcategorieDB
+from ORM.productstoredb import ProductstoreDB
+from ORM.storedb import StoreDB
 import read_txt
 
 #Python libraries
