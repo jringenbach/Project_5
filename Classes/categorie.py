@@ -5,7 +5,6 @@
 #--------------------------------------------------------------------
 
 #Own classes and libraries
-from Classes.linkapi import LinkAPI
 from Classes.product import Product
 
 
@@ -67,11 +66,6 @@ class Categorie:
 
         except HTTPError as http_err:
             print("HTTP Error : "+http_err)
-
-        except Exception as error:
-            print("An error occured while getting the products from this categorie : "+self.categorie_name)
-
-        #We set self.products
 
 
 

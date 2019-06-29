@@ -5,19 +5,32 @@ def clean_datas(openfoodfacts_dict):
     """Clean datas
     openfoodfacts_dict : dictionary that contains categories and their products (dict)"""
 
+    print("Cleaning datas")
+
     for key, list_item in openfoodfacts_dict.items():
         if key != "categories":
-            find_all_duplicates(key, list_item)
-            delete_wrong_character(key, list_item)
+            i = 0
+            for i in range(0, len(list_item)):
+                if key == "products":
+                    list_item[i].product_name_fr = list_item[i].product_name_fr.replace("'", "''")
+                if key == "brands":
+                    list_item[i].brand_tags = list_item[i].brand_tags.replace("'", "''")
+                i += 1
+    
+    return openfoodfacts_dict
+
+
 
 
 
 def delete_wrong_character(key, list_item):
     """Delete characters that can't be inserted in database"""
-
+    print("Deleting wrong characters from : "+key)
     for item in list_item:
         if key == "products":
             item = item.product_name_fr.replace("'", "\'")
+        if key == "brands":
+            item = item.brand_tags.replace("'", "\'")
 
 
 

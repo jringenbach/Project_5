@@ -1,7 +1,12 @@
 # coding : utf-8
 
+#--------------------------------------------------------------------
+#                           IMPORT
+#--------------------------------------------------------------------
+#My own libraries and classes
 from Classes.nutritiongrade import Nutritiongrade
 
+#Python libraries and classes
 from sqlalchemy.exc import IntegrityError
 import records
 

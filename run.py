@@ -62,7 +62,7 @@ while not exit_program:
 
             #We create a dict with all datas and we clean the datas
             openfoodfacts_dict = data_treatment.get_list_of_all_objects(list_categories)
-            data_treatment.clean_datas(openfoodfacts_dict)
+            openfoodfacts_dict = data_treatment.clean_datas(openfoodfacts_dict)
 
             #We create the tables in the database if they don't exist
             link_to_database = LinkDB()

@@ -29,23 +29,23 @@ ENGINE=InnoDB DEFAULT CHARSET=utf8;
 ALTER TABLE Product
 ADD CONSTRAINT fk_barcode_nutrition_grade FOREIGN KEY (nutrition_grade) REFERENCES Nutritiongrade(nutrition_grade);
 
-CREATE TABLE IF NOT EXISTS Product_Brand(
+CREATE TABLE IF NOT EXISTS ProductBrand(
 barcode VARCHAR(20),
 id_brand INT
 )
 ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-ALTER TABLE Product_Brand
+ALTER TABLE ProductBrand
 ADD CONSTRAINT fk_barcode_brand FOREIGN KEY (barcode) REFERENCES Product(barcode),
 ADD CONSTRAINT fk_id_brand FOREIGN KEY (id_brand) REFERENCES Brand(id_brand);
 
 
-CREATE TABLE IF NOT EXISTS Product_Categorie(
+CREATE TABLE IF NOT EXISTS ProductCategorie(
 barcode VARCHAR(20),
 id_categorie INT
 )
 ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-ALTER TABLE Product_Categorie
+ALTER TABLE ProductCategorie
 ADD CONSTRAINT fk_barcode_categorie FOREIGN KEY (barcode) REFERENCES Product(barcode),
 ADD CONSTRAINT fk_id_categorie FOREIGN KEY(id_categorie) REFERENCES Categorie(id_categorie);

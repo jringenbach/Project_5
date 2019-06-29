@@ -1,5 +1,8 @@
 # coding : utf-8
 
+#--------------------------------------------------------------------
+#                           IMPORT
+#--------------------------------------------------------------------
 
 #My own libraries and classes
 from ORM.nutritiongradedb import NutritiongradeDB
@@ -13,6 +16,7 @@ import records
 
 class ProductDB:
     """Allow to insert data into the Products table in openfoodfacts database
+
     barcode : barcode of the product (str)
     id_products : unique identifier of the products (int)
     product_name_fr : name of the product (str)
@@ -34,6 +38,7 @@ class ProductDB:
 
     def about_me(self):
         """Print on the terminal information about the product itself"""
+
         try:
             print("Product name : "+self.product_name_fr)
             print("url : "+self.url)
@@ -41,6 +46,7 @@ class ProductDB:
         
         except UnicodeEncodeError as unicode_encode_error:
             print("Unicode Encode Error")
+            print(unicode_encode_error)
 
 
     
@@ -48,27 +54,25 @@ class ProductDB:
         """Insert this product values into the database
         db : records.Connexion Object """
 
-        insert_query = "INSERT INTO product (barcode, product_name_fr, url, nutrition_grade) VALUES "
-        insert_query += "(\'"+self.barcode+"\', "
-        insert_query += "\'"+self.product_name_fr+"\',"
-        insert_query += "\'"+self.url+"\',"
-        insert_query += "\'"+self.nutrition_grade.nutrition_grade+"\'"
-        insert_query += ");"
-
         try:
-            db.query(insert_query)
+            db.query("INSERT INTO product (barcode, product_name_fr, url, nutrition_grade) VALUES"\
+            " (:barcode, :product_name_fr, :url, :nutrition_grade)", barcode=self.barcode, \
+            product_name_fr=self.product_name_fr, url=self.url, nutrition_grade=self.nutrition_grade.nutrition_grade)
 
-        except IntegrityError:
-            print(self.product_name_fr+" is already in database.")
+        except IntegrityError as int_err:
+            print(self.product_name_fr+" : This product is already in database.")
+            print(int_err)
 
-        except ProgrammingError:
-            print("There was a programming error while inserting : "+self.product_name_fr)
+        except ProgrammingError as prg_err:
+            print("There was a programming error while inserting product : "+self.product_name_fr)
+            print(prg_err)
 
 
 
 
     def set_productdb_from_product(self, product_object):
         """Set a productdb object from a product object
+        
         product_object : A Product object"""
 
         self.barcode = product_object.barcode

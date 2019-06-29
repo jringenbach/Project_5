@@ -9,6 +9,8 @@ from ORM.branddb import BrandDB
 from ORM.categoriedb import CategorieDB
 from ORM.nutritiongradedb import NutritiongradeDB
 from ORM.productdb import ProductDB
+from ORM.productcategoriedb import ProductcategorieDB
+from ORM.productbranddb import ProductbrandDB
 import read_txt
 
 #Python libraries
@@ -27,7 +29,8 @@ class LinkDB:
 
     def __init__(self):
         self.DATABASE_URL = str()
-        self.db = None
+        self.connexion = self.set_database_url("conf.json")
+        self.db = records.Database(self.connexion)
 
 
 
@@ -40,10 +43,6 @@ class LinkDB:
     def execute_sql_script_from_file(self, file_path):
         """Execute a sql script read from a file to the database
         file_path : path to the sql script that we want to read (str)"""
-
-        #We try to create the connexion to the database
-        connexion = self.set_database_url("conf.json")
-        self.db = records.Database(connexion) #Reading DATABASE_URL
 
         #We read the sql script
         sql_script = read_txt.get_text_from_file(file_path)
@@ -82,12 +81,21 @@ class LinkDB:
                 #We instanciate a productdb object to insert into database
                 productdb_to_insert = ProductDB()
                 productdb_to_insert.set_productdb_from_product(product)
-                productdb_to_insert.about_me()
                 productdb_to_insert.insert_to_database(self.db)
 
                 #We instanciate a BrandDB object
                 branddb_to_insert = BrandDB(product.brands)
                 branddb_to_insert.insert_to_database(self.db)
+
+                #We instanciate a ProductcategorieDB object
+                productcategoriedb_to_insert = ProductcategorieDB()
+                productcategoriedb_to_insert.set_id_categorie(self.db, categorie)
+                productcategoriedb_to_insert.set_barcode(product)
+                productcategoriedb_to_insert.insert_to_database(self.db)
+
+                #We instanciate a ProductbrandDB object
+                productbranddb_to_insert = ProductbrandDB(productdb_to_insert.barcode, branddb_to_insert.brand_tags)
+                productbranddb_to_insert.insert_to_database(self.db)
 
 
 

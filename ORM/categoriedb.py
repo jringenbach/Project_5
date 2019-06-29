@@ -1,5 +1,10 @@
 # coding : utf-8
 
+#--------------------------------------------------------------------
+#                           IMPORT
+#--------------------------------------------------------------------
+
+
 import records
 
 
@@ -23,7 +28,8 @@ class CategorieDB:
         db : records.Database Object"""
 
         print("Inserting "+self.categorie_name+" to database.")
-        db.query("INSERT INTO categorie (categorie_name) VALUES (\'"+self.categorie_name+"\');")
+        db.query("INSERT INTO categorie (categorie_name) VALUES (:categorie_name)", \
+        categorie_name=self.categorie_name)
 
 
 
