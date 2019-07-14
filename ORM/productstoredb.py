@@ -27,20 +27,21 @@ class ProductstoreDB:
 #--------------------------------------------------------------------
 
 
-def insert_to_database(self, db):
-    """Insert a productstore into a productstore table in the database
-    
-    db : records.Connexion Object"""
+    def insert_to_database(self, db):
+        """Insert a productstore into a productstore table in the database
+        
+        db : records.Connexion Object"""
 
-    #We try to insert productstore into the database
-    try:
-        db.query("INSERT INTO productstore (:barcode, :id_store) VALUES",\
-        barcode=self.barcode, id_store=self.id_store)
+        #We try to insert productstore into the database
+        try:
+            insert_query = "INSERT INTO productstore (barcode, id_store) VALUES ('"\
+            +self.barcode+"', "+str(self.id_store)+");"
+            db.query(insert_query)
 
-    except IntegrityError as int_err:
-        print("There was an integrity error while inserting productstore")
-        print(int_err)
+        except IntegrityError as int_err:
+            print("There was an integrity error while inserting productstore")
+            print(int_err)
 
-    except ProgrammingError as prg_err:
-        print("There was a programming error while inserting productstore")
-        print(prg_err)
+        except ProgrammingError as prg_err:
+            print("There was a programming error while inserting productstore")
+            print(prg_err)

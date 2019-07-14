@@ -52,12 +52,16 @@ class ProductDB:
     
     def insert_to_database(self, db):
         """Insert this product values into the database
-        db : records.Connexion Object """
+        db : records.Connexion Object
+        insert_successful : Boolean that is equal to True if the insertion went successful"""
+
+        insert_successful = False
 
         try:
             db.query("INSERT INTO product (barcode, product_name_fr, url, nutrition_grade) VALUES"\
             " (:barcode, :product_name_fr, :url, :nutrition_grade)", barcode=self.barcode, \
             product_name_fr=self.product_name_fr, url=self.url, nutrition_grade=self.nutrition_grade.nutrition_grade)
+            insert_successful = True
 
         except IntegrityError as int_err:
             print(self.product_name_fr+" : This product is already in database.")
@@ -67,12 +71,14 @@ class ProductDB:
             print("There was a programming error while inserting product : "+self.product_name_fr)
             print(prg_err)
 
+        return insert_successful
+
 
 
 
     def set_productdb_from_product(self, product_object):
         """Set a productdb object from a product object
-        
+
         product_object : A Product object"""
 
         self.barcode = product_object.barcode

@@ -81,7 +81,8 @@ class Categorie:
             if "product_name" in product.keys() and "nutrition_grades" in product.keys() \
             and "brands" in product.keys() and "code" in product.keys():
                 self.products.append(Product(product["code"], product["product_name"], \
-                product["url"], product["nutrition_grades"], product["brands"]))
+                product["url"], product["nutrition_grades"], product["brands"], \
+                product["stores"]))
 
 
 

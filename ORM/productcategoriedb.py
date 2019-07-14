@@ -10,6 +10,8 @@ from Classes.product import Product
 
 #Python libraries and classes
 import records
+from sqlalchemy.exc import IntegrityError
+from sqlalchemy.exc import ProgrammingError
 
 
 class ProductcategorieDB:
@@ -19,9 +21,9 @@ class ProductcategorieDB:
     barcode : barcode of the product (str)
     id_categorie : Identifier of the categorie (int)"""
 
-    def __init__(self):
-        self.barcode = None
-        self.id_categorie = None
+    def __init__(self, barcode, id_categorie):
+        self.barcode = barcode
+        self.id_categorie = id_categorie
 
     
 
@@ -41,11 +43,18 @@ class ProductcategorieDB:
     def insert_to_database(self, db):
         """Insert this ProductcategorieDB into the database"""
 
-        insert_query = "INSERT INTO productcategorie (barcode, id_categorie) VALUES ('"\
-        +self.barcode+"', "+str(self.id_categorie)+");"
-        db.query(insert_query)
+        #We try to insert this productcategorie into the database
+        try:
+            insert_query = "INSERT INTO productcategorie (barcode, id_categorie) VALUES ('"\
+            +self.barcode+"', "+str(self.id_categorie)+");"
+            db.query(insert_query)
 
+        except IntegrityError as int_err:
+            print("There was an integrity error while inserting productcategoriedb")
+            print(int_err)
 
+        except ProgrammingError as prg_err:       
+            print("There was a programming error while inserting a productcategoriedb")
 
     def set_barcode(self, product):
         """Set the barcode of the product to this ProductcategorieDB"""

@@ -33,7 +33,7 @@ class BrandDB:
 
         #If the primary key for this brand already exists
         except IntegrityError:
-            print(self.brand_tags+" : This brand is already in database.")
+            print("This brand is already in database.")
 
         except ProgrammingError:
-            print("There was a programming error while inserting brand : "+self.brand_tags)
+            print("There was a programming error while inserting brand.")

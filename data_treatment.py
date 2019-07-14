@@ -14,7 +14,11 @@ def clean_datas(openfoodfacts_dict):
                 if key == "products":
                     list_item[i].product_name_fr = list_item[i].product_name_fr.replace("'", "''")
                 if key == "brands":
-                    list_item[i].brand_tags = list_item[i].brand_tags.replace("'", "''")
+                    list_item[i].brand_tags = list_item[i].brand_tags.replace(" ", "")
+                if key == "stores":
+                    list_item[i].name_store = list_item[i].name_store.replace(", ", "")
+                    list_item[i].name_store = list_item[i].name_store.replace(",", "")
+
                 i += 1
     
     return openfoodfacts_dict
@@ -54,6 +58,7 @@ def get_list_of_all_objects(list_categories):
     list_products = list()
     list_brands = list()
     list_nutrition_grade = list()
+    list_stores = list()
 
     #We check every categorie in the list
     for categorie in list_categories:
@@ -61,17 +66,17 @@ def get_list_of_all_objects(list_categories):
         #We check every product in the categorie
         for product in categorie.products:
             list_products.append(product)
-            list_brands.append(product.brands)
+            for brand in product.brands:
+                list_brands.append(brand)
+            for store in product.stores:
+                list_stores.append(store)
             list_nutrition_grade.append(product.nutrition_grade)
-
-        print("Number of products : "+str(len(list_products)))
-        print("Number of brands : "+str(len(list_brands)))
-        print("Number of nutrition_grade : "+str(len(list_nutrition_grade)))
 
         #We build a dictionary with every list
         openfoodfacts_dict = {"categories" : list_categories,
         "products" : list_products,
         "brands" : list_brands,
-        "nutrition_grade" : list_nutrition_grade}
+        "nutrition_grade" : list_nutrition_grade,
+        "stores" : list_stores}
 
         return openfoodfacts_dict

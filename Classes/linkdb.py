@@ -74,6 +74,7 @@ class LinkDB:
         for categorie in openfoodfacts_dict["categories"]:
             categoriedb_to_insert = CategorieDB(categorie)
             categoriedb_to_insert.insert_to_database(self.db)
+            categoriedb_to_insert.find_id_categorie_in_database(self.db)
             for product in categorie.products:
                 
                 #We instanciate a NutritiongradeDB object to insert into database
@@ -83,21 +84,34 @@ class LinkDB:
                 #We instanciate a productdb object to insert into database
                 productdb_to_insert = ProductDB()
                 productdb_to_insert.set_productdb_from_product(product)
-                productdb_to_insert.insert_to_database(self.db)
+                insert_successful = productdb_to_insert.insert_to_database(self.db)
 
-                #We instanciate a BrandDB object
-                branddb_to_insert = BrandDB(product.brands)
-                branddb_to_insert.insert_to_database(self.db)
 
-                #We instanciate a ProductcategorieDB object
-                productcategoriedb_to_insert = ProductcategorieDB()
-                productcategoriedb_to_insert.set_id_categorie(self.db, categorie)
-                productcategoriedb_to_insert.set_barcode(product)
-                productcategoriedb_to_insert.insert_to_database(self.db)
+                #If we succeeded to insert a product, we can insert the table that are linked to it
+                if insert_successful:
+                    #We instanciate a BrandDB object
+                    for brand in product.brands:
+                        branddb_to_insert = BrandDB(brand)
+                        branddb_to_insert.insert_to_database(self.db)
+                        #We instanciate a ProductbrandDB object
+                        productbranddb_to_insert = ProductbrandDB(productdb_to_insert.barcode, branddb_to_insert.brand_tags)
+                        productbranddb_to_insert.insert_to_database(self.db)
 
-                #We instanciate a ProductbrandDB object
-                productbranddb_to_insert = ProductbrandDB(productdb_to_insert.barcode, branddb_to_insert.brand_tags)
-                productbranddb_to_insert.insert_to_database(self.db)
+                    #We instanciate a storeDB object
+                    for store in product.stores:
+                        storedb_to_insert = StoreDB(store)
+                        storedb_to_insert.insert_to_database(self.db)
+                        storedb_to_insert.find_id_store_in_database(self.db)
+
+                        #We instanciate a ProductstoreDB object
+                        productstoredb_to_insert = ProductstoreDB(product.barcode, storedb_to_insert.id_store)
+                        productstoredb_to_insert.insert_to_database(self.db)
+
+                    #We instanciate a ProductcategorieDB object
+                    productcategoriedb_to_insert = ProductcategorieDB(product.barcode, categoriedb_to_insert.id_categorie)
+                    productcategoriedb_to_insert.insert_to_database(self.db)
+
+
 
 
 

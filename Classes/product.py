@@ -7,6 +7,7 @@
 #Own classes and libraries
 from Classes.brand import Brand
 from Classes.nutritiongrade import Nutritiongrade
+from Classes.store import Store
 
 
 #Python libraries
@@ -19,15 +20,18 @@ class Product:
     product_name : name of the product (str)
     url : url where we can consult the product on openfoodfacts (str)
     nutrition_grade : nutriscore of the product (str)
-    brand : brand of the product (Brand Object)"""
+    brand : list of brands of the product (list)
+    stores : list of Store Object (list)"""
 
-    def __init__(self, barcode, product_name_fr, url, nutrition_grade, brand):
+    def __init__(self, barcode, product_name_fr, url, nutrition_grade, brands, stores):
 
         self.barcode = barcode
         self.product_name_fr = product_name_fr
         self.url = url
         self.nutrition_grade = Nutritiongrade(nutrition_grade)
-        self.brands = Brand(brand)
+        self.brands = self.set_list_of_brands(brands)
+        self.stores = self.set_list_of_stores(stores)
+        
 
 #--------------------------------------------------------------------
 #                           METHODS
@@ -40,9 +44,8 @@ class Product:
             print("Product name : "+self.product_name_fr)
             print("url : "+self.url)
             self.nutrition_grade.about_me()
-            self.brands.about_me()
         
-        except UnicodeEncodeError as unicode_encode_error:
+        except UnicodeEncodeError:
             print("Unicode Encode Error")
 
     
@@ -77,6 +80,35 @@ class Product:
         self.product_name = product_name
         self.url = url
 
+    
+
+    def set_list_of_brands(self, brands):
+        """We get brands in a string separated by ','. We split this string and instanciate a list
+        of Brand Object.
+        
+        brands : string that contains all brands (str)"""
+
+        list_of_brands = list()
+        list_of_brands_str = brands.split(",")
+        for brand_str in list_of_brands_str:
+            list_of_brands.append(Brand(brand_str))
+
+        return list_of_brands
+
+
+    
+    def set_list_of_stores(self, stores):
+        """We get stores in a string separated by ','. We split this string and instanciate a list
+        of Store Object
+        
+        stores : string that contains all stores (str)"""
+
+        list_of_stores = list()
+        list_of_stores_str = stores.split(",")
+        for store_str in list_of_stores_str:
+            list_of_stores.append(Store(store_str))
+
+        return list_of_stores
 
 
 
