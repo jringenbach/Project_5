@@ -19,7 +19,7 @@ class CategorieDB:
     def __init__(self, categorie_object):
             
         self.id_categorie = None
-        self.categorie_name = categorie_object.categorie_name
+        self.categorie_name = categorie_object.categorie_name.lower()
 
 
 #--------------------------------------------------------------------
@@ -31,7 +31,8 @@ class CategorieDB:
     def insert_to_database(self, db):
         """Insert categories data into database
         db : records.Database Object"""
-
+        
+        self.remove_bad_characters()
         print("Inserting "+self.categorie_name+" to database.")
         db.query("INSERT INTO categorie (categorie_name) VALUES (:categorie_name)", \
         categorie_name=self.categorie_name)
@@ -55,6 +56,13 @@ class CategorieDB:
         except ProgrammingError as prg_err:
             print("There was a programming error while selecting id categorie")
             print(prg_err)
+
+
+
+    def remove_bad_characters(self):
+        """Remove characters that we don't want in the categorie name"""
+
+        self.categorie_name = self.categorie_name.replace("\n", "")
 
 
         

@@ -6,7 +6,7 @@ class Brand:
 
     def __init__(self, brand_tags):
 
-        self.brand_tags = brand_tags
+        self.brand_tags = brand_tags.lower()
 
 #--------------------------------------------------------------------
 #                           METHODS

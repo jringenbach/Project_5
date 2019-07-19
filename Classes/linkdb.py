@@ -13,6 +13,7 @@ from ORM.productbranddb import ProductbrandDB
 from ORM.productcategoriedb import ProductcategorieDB
 from ORM.productstoredb import ProductstoreDB
 from ORM.storedb import StoreDB
+from Classes.categorie import Categorie
 import read_txt
 
 #Python libraries
@@ -141,6 +142,36 @@ class LinkDB:
                 self.DATABASE_URL="mysql+mysqlconnector://"+user_db+":"+password_db+"@"+host_db+":3306/openfoodfacts?charset=utf8"
                 return self.DATABASE_URL
 
+
+
+    def get_list_of_products_from_database(self, product_name):
+        """Set the product from a select query to the database with the name of the product we 
+        are looking for"""
+
+        select_query = "SELECT * FROM Product WHERE product_name_fr LIKE '%"+product_name+"%'"
+        result = self.db.query(select_query)
+        result.all()
+        i = 0
+        for product in result:
+            print(result[i])
+            i += 1
+
+    
+    def get_dict_of_categories_from_database(self):
+        """Return the dict of the categories that are in the database
+        
+        dict_of_categories : dictionary containing categories { num_cat : categorie_object}"""
+
+        dict_of_categories = dict()
+        select_query = "SELECT * FROM Categorie ORDER BY categorie_name ASC;"
+        result = self.db.query(select_query)
+        result.all()
+
+        for i in range(0, len(result)):
+            dict_of_categories.update({str(i+1) : Categorie(result[i]["categorie_name"])})
+
+        return dict_of_categories
+            
 
 
 

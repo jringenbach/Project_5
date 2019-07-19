@@ -25,7 +25,7 @@ class Categorie:
     def __init__(self, categorie_name):
         """categorie_name : Name of the categorie"""
 
-        self.categorie_name = categorie_name
+        self.categorie_name = categorie_name.lower()
         self.products = list()
 
 

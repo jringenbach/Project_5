@@ -4,6 +4,8 @@
 #                           IMPORT
 #--------------------------------------------------------------------
 
+from Classes.categorie import Categorie
+
 #Python libraries
 import json
 import os
@@ -18,21 +20,38 @@ class Menu:
 
 
 
-    def __init__(self, menu_name):
+    def __init__(self, menu_name=None, options_dict=None):
         """Initialization of a menu"""
-        self.language = self.search_language_used()
-        self.options = self.get_options_from_json(menu_name)
-        if type(self.options) is str:
-            self.num_options = 1
+        self.options = dict()
+        self.num_options = int()
+
+
+        if menu_name is None:
+            self.create_menu_from_dict(options_dict)
+
         else:
-            self.num_options = len(self.options)
-        print(self.num_options)
+            self.language = self.search_language_used()
+            self.options = self.get_options_from_json(menu_name)
+            if type(self.options) is str:
+                self.num_options = 1
+            else:
+                self.num_options = len(self.options)
+            print(self.num_options)
 
 
 
 #--------------------------------------------------------------------
 #                           METHODS
 #--------------------------------------------------------------------
+
+
+    def create_menu_from_dict(self, options_dict):
+        """Create a menu using a list of options
+        
+        options_dict : dict of the options of the menu"""
+
+        self.options = options_dict
+        self.num_options = len(options_dict)
 
 
 
@@ -66,15 +85,23 @@ class Menu:
 
 
     def display(self):
-        """Display the options of the menu in the terminal"""
+        """Display the options of the menu in the terminal
+        
+        self.options : dictionary containing options of the menu { num_opt : option}"""
 
+        #If there is only one option, it will be a string object
         if type(self.options) is str:
             print(self.options)
             
         else:
             #We display each option one by one
             for option in self.options:
-                print(option+"."+self.options[option])
+                if type(self.options[option]) is str:
+                    print(option+"."+self.options[option])
+
+                #If we want a menu from a dict with Categorie Object
+                elif type(self.options[option]) is Categorie:
+                    print(option+"."+self.options[option].categorie_name)
 
 
 

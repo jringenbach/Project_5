@@ -9,7 +9,7 @@ class Store:
 
 
     def __init__(self, name_store):
-        self.name_store = name_store
+        self.name_store = name_store.lower()
 
 
 #--------------------------------------------------------------------

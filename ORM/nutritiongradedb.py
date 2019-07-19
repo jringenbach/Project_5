@@ -17,7 +17,7 @@ class NutritiongradeDB:
 
     def __init__(self, nutrition_grade):
 
-        self.nutrition_grade = nutrition_grade.nutrition_grade
+        self.nutrition_grade = nutrition_grade.nutrition_grade.lower()
 
 
 #--------------------------------------------------------------------

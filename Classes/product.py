@@ -23,15 +23,15 @@ class Product:
     brand : list of brands of the product (list)
     stores : list of Store Object (list)"""
 
-    def __init__(self, barcode, product_name_fr, url, nutrition_grade, brands, stores):
+    def __init__(self, barcode=None, product_name_fr=None, url=None, nutrition_grade=None, brands=None, stores=None):
 
         self.barcode = barcode
-        self.product_name_fr = product_name_fr
+        self.product_name_fr = product_name_fr.lower()
         self.url = url
         self.nutrition_grade = Nutritiongrade(nutrition_grade)
         self.brands = self.set_list_of_brands(brands)
         self.stores = self.set_list_of_stores(stores)
-        
+
 
 #--------------------------------------------------------------------
 #                           METHODS
@@ -59,6 +59,7 @@ class Product:
                 list_products.remove(product)
 
 
+
     def is_equal(self, other_product):
         """Test if this product is equal to an other product. Return True if equal, else it returns False
         other_product : Product Object that we compare to this product"""
@@ -71,11 +72,15 @@ class Product:
         else:
             return False
 
+    
+
+
 
 
     def set_attributes(self, product_name, url):
         """Set attributes of a product
-        product_name : Name of the product (str)"""
+        product_name : Name of the product (str)
+        url : url of the product (str)"""
 
         self.product_name = product_name
         self.url = url

@@ -24,7 +24,7 @@ import os
 exit_program = False
 
 #Instanciation of the language choice menu
-language_menu = Menu("language_menu")
+language_menu = Menu("language_menu", None)
 language = str()
 
 #While the user doesn't chose "fr" or "en", we keep asking him the language
@@ -39,13 +39,13 @@ language_menu.change_language(language)
 #While the user hasn't chosen to exit the program
 while not exit_program:
     #We instanciate the main menu
-    main_menu = Menu("main_menu")
+    main_menu = Menu("main_menu", None)
     main_menu_input = main_menu.input()
 
     #If the user choses the database menu
     if main_menu_input == "1":
 
-        database_menu = Menu("database_menu")
+        database_menu = Menu("database_menu", None)
         database_menu_input = database_menu.input()
 
         #If user choses to insert data in database from openfoodfacts
@@ -76,9 +76,21 @@ while not exit_program:
                 link_to_database.link_classes_to_orm(openfoodfacts_dict)
                 link_to_database.insert_datas_to_database(openfoodfacts_dict)
 
+
         #Exit the program from database menu
         elif database_menu_input == "4":
             exit_program = True
+
+
+    #If the user chooses "My nutritional Program" in the main menu
+    elif main_menu_input == "2":
+        
+        link_to_database = LinkDB()
+        dict_of_categorie = link_to_database.get_dict_of_categories_from_database()
+        categorie_menu = Menu(None, dict_of_categorie)
+        categorie_menu.display()
+
+
         
 
     #If user chose to exit the program

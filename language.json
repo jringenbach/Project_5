@@ -12,6 +12,10 @@
             "2" : "Effacer les tables de la base de données",
             "3" : "Retour",
             "4" : "Quitter"
+        },
+        "nutritional_program_menu":{
+            "1" : "Quel aliment souhaitez-vous remplacer?",
+            "2" : "Retrouver mes aliments substitués"
         }
     },
     "en":{
@@ -27,6 +31,10 @@
             "2" : "Delete tables in the database",
             "3" : "Back",
             "4" : "Exit"
+        },
+        "nutritional_program_menu":{
+            "1" : "What food would you like to substitute?",
+            "2" : "Find my substituted food"
         }
     }
 }
