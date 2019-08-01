@@ -16,9 +16,9 @@ class CategorieDB:
     categorie_name : name of the categories (str)
     id_categorie : The id of this categorie"""
 
-    def __init__(self, categorie_object):
+    def __init__(self, categorie_object, id_categorie=None):
             
-        self.id_categorie = None
+        self.id_categorie = id_categorie
         self.categorie_name = categorie_object.categorie_name.lower()
 
 

@@ -38,11 +38,24 @@ class Product:
 #--------------------------------------------------------------------
 
     def about_me(self):
-        """Print on the terminal information about the product itself"""
+        """Print on the terminal information about the product itself
+        
+        list_store_str : list of the store name"""
+
+        list_store_str = list()
+
         try:
+            print("-------------------------------------------")
             print("Barcode : "+self.barcode)
             print("Product name : "+self.product_name_fr)
             print("url : "+self.url)
+
+            #We create a list with the store names (str)
+            for store in self.stores:
+                list_store_str.append(store.name_store)
+
+            store_str = ", ".join(list_store_str)
+            print("Store : "+store_str)
             self.nutrition_grade.about_me()
         
         except UnicodeEncodeError:
@@ -94,9 +107,10 @@ class Product:
         brands : string that contains all brands (str)"""
 
         list_of_brands = list()
-        list_of_brands_str = brands.split(",")
-        for brand_str in list_of_brands_str:
-            list_of_brands.append(Brand(brand_str))
+        if brands is not None:
+            list_of_brands_str = brands.split(",")
+            for brand_str in list_of_brands_str:
+                list_of_brands.append(Brand(brand_str))
 
         return list_of_brands
 

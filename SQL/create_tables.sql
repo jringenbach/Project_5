@@ -65,3 +65,14 @@ ENGINE=InnoDB DEFAULT CHARSET=utf8;
 ALTER TABLE ProductCategorie
 ADD CONSTRAINT fk_barcode_categorie FOREIGN KEY (barcode) REFERENCES Product(barcode),
 ADD CONSTRAINT fk_id_categorie FOREIGN KEY(id_categorie) REFERENCES Categorie(id_categorie);
+
+CREATE TABLE IF NOT EXISTS RegisteredProduct(
+id_registered_product INT AUTO_INCREMENT PRIMARY KEY,
+barcode_product VARCHAR(20),
+barcode_substitute VARCHAR(20)
+)
+ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+ALTER TABLE RegisteredProduct
+ADD CONSTRAINT fk_barcode_product FOREIGN KEY (barcode_product) REFERENCES Product(barcode),
+ADD CONSTRAINT fk_barcode_substitute FOREIGN KEY(barcode_substitute) REFERENCES Product(barcode);

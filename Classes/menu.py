@@ -5,7 +5,8 @@
 #--------------------------------------------------------------------
 
 from Classes.categorie import Categorie
-
+from Classes.product import Product
+from ORM.categoriedb import CategorieDB
 #Python libraries
 import json
 import os
@@ -89,6 +90,7 @@ class Menu:
         
         self.options : dictionary containing options of the menu { num_opt : option}"""
 
+
         #If there is only one option, it will be a string object
         if type(self.options) is str:
             print(self.options)
@@ -100,8 +102,12 @@ class Menu:
                     print(option+"."+self.options[option])
 
                 #If we want a menu from a dict with Categorie Object
-                elif type(self.options[option]) is Categorie:
+                elif type(self.options[option]) is CategorieDB:
                     print(option+"."+self.options[option].categorie_name)
+
+                #If we want a menu from a dict with Product Object
+                elif type(self.options[option]) is Product:
+                    print(option+"."+self.options[option].product_name_fr+" : barcode: "+self.options[option].barcode)
 
 
 

@@ -14,6 +14,8 @@ from ORM.productcategoriedb import ProductcategorieDB
 from ORM.productstoredb import ProductstoreDB
 from ORM.storedb import StoreDB
 from Classes.categorie import Categorie
+from Classes.product import Product
+from Classes.store import Store
 import read_txt
 
 #Python libraries
@@ -41,6 +43,20 @@ class LinkDB:
 #                           METHODS
 #--------------------------------------------------------------------
 
+
+    def check_if_product_already_in_dict(self, prod, dict_of_products):
+        """Check if the product is already in the dictionary of product we want to display. If it
+        already exists, we add a store to product that already exists.
+        Return True if already exists.
+        
+        prod : product we want to check if it already is in the dictionary (Product)"""
+
+        for key, product in dict_of_products.items():
+            if product.barcode == prod.barcode:
+                product.stores.append(Store(prod.stores[0].name_store))
+                return True
+        
+        return False
 
 
     def execute_sql_script_from_file(self, file_path):
@@ -160,7 +176,7 @@ class LinkDB:
     def get_dict_of_categories_from_database(self):
         """Return the dict of the categories that are in the database
         
-        dict_of_categories : dictionary containing categories { num_cat : categorie_object}"""
+        dict_of_categories : dictionary containing categories { num_cat : CategorieDB_object}"""
 
         dict_of_categories = dict()
         select_query = "SELECT * FROM Categorie ORDER BY categorie_name ASC;"
@@ -168,10 +184,74 @@ class LinkDB:
         result.all()
 
         for i in range(0, len(result)):
-            dict_of_categories.update({str(i+1) : Categorie(result[i]["categorie_name"])})
+            categorie = Categorie(result[i]["categorie_name"])
+            categorie_db = CategorieDB(categorie, result[i]["id_categorie"])
+            dict_of_categories.update({str(i+1) : categorie_db})
 
         return dict_of_categories
+
+
+
+    def get_dict_of_products_from_database(self, id_categorie):
+        """Return the dict of products depending on a categorie
+        
+        id_categorie : id of the categorie we want a dict of product from (int)
+        dict_of_products : dict containing product => { num_product : product}
+        num_product_key_dict : key of the dictionary of products that will associate a product to a menu number"""
             
+        dict_of_products = dict()
+
+        #We select a product with the categorie, store associated to it
+        select_query = "SELECT Product.barcode, Product.product_name_fr, Product.url, "\
+        +" Product.nutrition_grade, Store.name_store FROM Product "\
+        +" LEFT JOIN Productcategorie ON Product.barcode=Productcategorie.barcode "\
+        +" LEFT JOIN Categorie ON Categorie.id_categorie = Productcategorie.id_categorie "\
+        +" LEFT JOIN Productstore ON Product.barcode = Productstore.barcode"\
+        +" LEFT JOIN Store ON Productstore.id_store = Store.id_store"\
+        +" WHERE Productcategorie.id_categorie="+str(id_categorie)\
+        +" ORDER BY Product.nutrition_grade;"
+        
+
+        result = self.db.query(select_query)
+        result.all()
+
+        num_product_key_dict = 1
+        #We create a dictionary of products that we will return
+        for i in range(0, len(result)):
+            barcode = result[i]["barcode"]
+            product_name = result[i]["product_name_fr"]
+            url = result[i]["url"]
+            nutritiongrade_product = result[i]["nutrition_grade"]
+            stores_product = result[i]["name_store"]
+
+            prod = Product(barcode=barcode, product_name_fr=product_name, url=url, nutrition_grade=nutritiongrade_product, brands=None, stores=stores_product)
+            product_already_exist_in_dict = self.check_if_product_already_in_dict(prod, dict_of_products)
+
+            #If the product doesn't already exist in the dict, we insert it
+            if product_already_exist_in_dict == False:
+                dict_of_products.update({str(num_product_key_dict) : prod})
+                num_product_key_dict += 1
+
+
+        #Dict containing all the products from the categorie selected by the user
+        return dict_of_products
+
+
+
+    def get_list_of_product_with_better_nutrition_grade(self, dict_of_products, product_chosen):
+        """Return a list of product with a better nutrition grade than the product chosen by the user
+        
+        dict_of_products : dictionary containing Product Object {"num_prod" : Product object}
+        product_chosen : Product chosen by the user (Product)"""
+
+        list_of_product_with_better_nutrition_grade = list()
+
+        for key, prod in dict_of_products.items():
+            if ord(prod.nutrition_grade.nutrition_grade) < ord(product_chosen.nutrition_grade.nutrition_grade):
+                list_of_product_with_better_nutrition_grade.append(prod)
+
+        return list_of_product_with_better_nutrition_grade
+
 
 
 

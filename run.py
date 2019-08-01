@@ -11,6 +11,8 @@ from Classes.linkdb import LinkDB
 from Classes.menu import Menu
 from Classes.product import Product
 
+from ORM.registeredproductdb import RegisteredProductDB
+
 import data_treatment
 import read_txt
 
@@ -22,19 +24,8 @@ import os
 #--------------------------------------------------------------------
 
 exit_program = False
+language = "fr"
 
-#Instanciation of the language choice menu
-language_menu = Menu("language_menu", None)
-language = str()
-
-#While the user doesn't chose "fr" or "en", we keep asking him the language
-while(language != "fr" and language != "en"):
-    language_menu.display()
-    language = input(" => ")
-    os.system("clear")
-
-#We change the language in the conf.json if it is necessary
-language_menu.change_language(language)
 
 #While the user hasn't chosen to exit the program
 while not exit_program:
@@ -86,10 +77,26 @@ while not exit_program:
     elif main_menu_input == "2":
         
         link_to_database = LinkDB()
+
+        #We get the list of the categories from the database and we display it as a menu
         dict_of_categorie = link_to_database.get_dict_of_categories_from_database()
         categorie_menu = Menu(None, dict_of_categorie)
-        categorie_menu.display()
+        categorie_chosen = categorie_menu.input()
 
+        #We get the dict of product from the categorie chosen by the user
+        dict_of_products = link_to_database.get_dict_of_products_from_database(dict_of_categorie[categorie_chosen].id_categorie)
+        product_menu = Menu(None, dict_of_products)
+        num_product_chosen = product_menu.input()
+        product_chosen = dict_of_products[num_product_chosen]
+
+        #We get the list of product with better nutrition grade and display them
+        list_product_with_better_nutrition_grade = link_to_database.get_list_of_product_with_better_nutrition_grade(dict_of_products, dict_of_products[num_product_chosen])
+        product_substitute = data_treatment.print_list_of_products(list_product_with_better_nutrition_grade)
+
+        #We insert the product chosen and its substitution product into the database
+        if product_substitute is not None:
+            registeredproductdb_to_insert = RegisteredProductDB(product_chosen.barcode, product_substitute.barcode)
+            registeredproductdb_to_insert.insert_to_database(link_to_database.db)
 
         
 

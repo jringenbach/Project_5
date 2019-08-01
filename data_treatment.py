@@ -80,3 +80,36 @@ def get_list_of_all_objects(list_categories):
         "stores" : list_stores}
 
         return openfoodfacts_dict
+
+
+def print_list_of_products(list_of_products):
+    """Print a list of products in the terminal
+    Return None if no product has a better nutriscore, return the first product of the list otherwise
+    
+    list_of_products : list containing products"""
+
+    #If no product has a better nutriscore, we tell it to the user
+    if len(list_of_products) == 0:
+        print("Aucun produit n'a un meilleur nutriscore que le produit selectionné")
+        return None
+    
+    else:
+        print("\n-------------------------------------------------------------------------")
+        print(str(len(list_of_products))+" produits ont un meilleur nutriscore que le produit que vous avez choisi.")
+        print("-------------------------------------------------------------------------\n\n")
+
+        list_of_products[0].about_me()
+
+        #If there are more than one product that has a better nutrition grade, we ask the user if he wants to
+        #see them
+        if len(list_of_products) > 1:
+            print("D'autres produits ont un meilleur nutriscore.")
+            print("Tapez 1 pour les voir. Un autre touche pour retourner au menu précédent.")
+            user_choice = input("==> ")
+
+            if user_choice == "1":
+                for i in range(1, len(list_of_products)):
+                    list_of_products[i].about_me()
+        
+        return list_of_products[0]
+

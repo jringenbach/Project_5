@@ -15,6 +15,10 @@ ALTER TABLE ProductCategorie
 DROP FOREIGN KEY fk_barcode_categorie,
 DROP FOREIGN KEY fk_id_categorie;
 
+ALTER TABLE RegisteredProduct
+DROP FOREIGN KEY fk_barcode_product,
+DROP FOREIGN KEY fk_barcode_substitute;
+
 DROP TABLE IF EXISTS ProductStore;
 
 DROP TABLE IF EXISTS ProductBrand;
