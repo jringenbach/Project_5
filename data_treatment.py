@@ -113,3 +113,18 @@ def print_list_of_products(list_of_products):
         
         return list_of_products[0]
 
+
+def print_product_and_substitute(dict_product_substitute):
+    """Print on the terminal the product the user has looked for and the substitute for them"""
+
+    length_product = len(dict_product_substitute["product"])
+
+    for i in range(0, length_product):
+        print("------ "+str(i+1)+". Product ------")
+        print(dict_product_substitute["product"][str(i+1)].about_me())
+        print("------ Substitute ------")
+        print(dict_product_substitute["substitute"][str(i+1)].about_me())
+        print("----------------------------------------------------------\n")
+
+
+

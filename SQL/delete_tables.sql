@@ -34,3 +34,5 @@ DROP TABLE IF EXISTS Nutritiongrade;
 DROP TABLE IF EXISTS Product;
 
 DROP TABLE IF EXISTS Store;
+
+DROP TABLE IF EXISTS RegisteredProduct;

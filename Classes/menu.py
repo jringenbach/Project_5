@@ -4,9 +4,11 @@
 #                           IMPORT
 #--------------------------------------------------------------------
 
+#My own libraries
 from Classes.categorie import Categorie
 from Classes.product import Product
 from ORM.categoriedb import CategorieDB
+
 #Python libraries
 import json
 import os
@@ -44,6 +46,31 @@ class Menu:
 #--------------------------------------------------------------------
 #                           METHODS
 #--------------------------------------------------------------------
+
+
+    def calculate_max_length_options(self):
+        """Look into the options the one with the longest length and return its length
+        
+        max_length : size of the longest string in the dict of menus (int)"""
+
+        max_length = -1
+
+        #We go through options and depending on their type, we set len_option
+        for key, option in self.options.items():
+            if type(option) is CategorieDB:
+                len_option = len(option.categorie_name)
+
+            elif type(option) is Product:
+                len_option = len(option.product_name_fr)
+
+            elif type(option) is str:
+                len_option = len(option)
+
+            if len_option > max_length:
+                max_length = len_option
+
+        return max_length
+
 
 
     def create_menu_from_dict(self, options_dict):
@@ -90,25 +117,59 @@ class Menu:
         
         self.options : dictionary containing options of the menu { num_opt : option}"""
 
-
         #If there is only one option, it will be a string object
         if type(self.options) is str:
             print(self.options)
             
         else:
+
+            max_length_options = self.calculate_max_length_options()
+            #We display the - that will forme a table around the menu
+
+            self.display_tiret(max_length_options)
             #We display each option one by one
             for option in self.options:
                 if type(self.options[option]) is str:
-                    print(option+"."+self.options[option])
+                    print("| "+option+"."+self.options[option], end="")
+                    self.display_tiret_endline(self.options[option], max_length_options)
 
                 #If we want a menu from a dict with Categorie Object
                 elif type(self.options[option]) is CategorieDB:
-                    print(option+"."+self.options[option].categorie_name)
+                    print("| "+option+"."+self.options[option].categorie_name, end="")
+                    self.display_tiret_endline(self.options[option].categorie_name, max_length_options)
 
                 #If we want a menu from a dict with Product Object
                 elif type(self.options[option]) is Product:
-                    print(option+"."+self.options[option].product_name_fr+" : barcode: "+self.options[option].barcode)
+                    print("| "+option+"."+self.options[option].product_name_fr+" : barcode: "+self.options[option].barcode, end="")
+                    self.display_tiret_endline(self.options[option].product_name_fr, max_length_options)
 
+            #We display the - that will forme a table around the menu          
+            self.display_tiret(max_length_options)
+
+
+
+    def display_tiret(self, max_length_options):
+        """Display tiret on the terminal depending on the size of the longest option string
+        
+        max_length_options : length of the option with the longest string (int)"""
+
+        for i in range(0, max_length_options+5):
+            print("-", end="")
+        print("")
+
+    
+
+    def display_tiret_endline(self, option, max_length_options):
+        """Display the tiret at the end of the line of the menu calculating the number of space
+        necessary between the option and the tiret that will form the table around the menu.
+        
+        option : string containing the current option
+        max_length_options : size of the longest option (int)"""
+
+        for i in range(0, max_length_options-len(option)):
+            print(" ", end="")
+
+        print("|")
 
 
     def get_options_from_json(self, menu_name):

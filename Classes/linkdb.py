@@ -19,6 +19,9 @@ from Classes.store import Store
 import read_txt
 
 #Python libraries
+from sqlalchemy.exc import IntegrityError
+from sqlalchemy.exc import ProgrammingError
+
 import json
 import mysql.connector
 import records
@@ -251,6 +254,88 @@ class LinkDB:
                 list_of_product_with_better_nutrition_grade.append(prod)
 
         return list_of_product_with_better_nutrition_grade
+
+
+    def get_list_of_product_and_substitute_from_database(self):
+        """Get list of the product and their substitute"""
+
+        #We select the product the user tried to find substitution for
+        select_query_product = "SELECT Product.barcode, Product.product_name_fr, Product.url, "\
+        +" Product.nutrition_grade, Store.name_store, RegisteredProduct.id_registered_product"\
+        +" FROM RegisteredProduct "\
+        +" LEFT JOIN Product ON RegisteredProduct.barcode_product = Product.barcode"\
+        +" LEFT JOIN Productcategorie ON Product.barcode=Productcategorie.barcode "\
+        +" LEFT JOIN Categorie ON Categorie.id_categorie = Productcategorie.id_categorie "\
+        +" LEFT JOIN Productstore ON Product.barcode = Productstore.barcode"\
+        +" LEFT JOIN Store ON Productstore.id_store = Store.id_store"\
+        +" ORDER BY RegisteredProduct.id_registered_product;"
+
+        #We select the product of substitution
+        select_query_substitute = "SELECT Product.barcode, Product.product_name_fr, Product.url, "\
+        +" Product.nutrition_grade, Store.name_store , RegisteredProduct.id_registered_product"\
+        +" FROM RegisteredProduct "\
+        +" LEFT JOIN Product ON RegisteredProduct.barcode_substitute = Product.barcode"\
+        +" LEFT JOIN Productcategorie ON Product.barcode=Productcategorie.barcode "\
+        +" LEFT JOIN Categorie ON Categorie.id_categorie = Productcategorie.id_categorie "\
+        +" LEFT JOIN Productstore ON Product.barcode = Productstore.barcode"\
+        +" LEFT JOIN Store ON Productstore.id_store = Store.id_store"\
+        +" ORDER BY RegisteredProduct.id_registered_product;"
+
+        #We try to get those products from the database
+        try:
+            result_product = self.db.query(select_query_product)
+            result_substitute = self.db.query(select_query_substitute)
+            result_product.all()
+            result_substitute.all()
+
+            dict_of_product = self.get_dict_of_product_from_registered_product(result_product)
+            dict_of_substitute = self.get_dict_of_product_from_registered_product(result_substitute)
+            dict_product_and_substitute = {"product" : dict_of_product, "substitute" : dict_of_substitute}
+
+            return dict_product_and_substitute
+            
+
+        except IntegrityError:
+            print("There was an integrity error while getting registered product.")
+
+        except ProgrammingError:
+            print("There was a programming error while getting registered products")
+        
+
+
+    def get_dict_of_product_from_registered_product(self, result):
+        """Turn a Record Object of product into a clean dictionary
+        
+        dict_of_product : dictionary {"num" : Product}"""
+
+        list_id_registered_product = list()
+        dict_of_product = dict()
+
+        #We go through record in the result
+        for record in result:
+            #If we haven't already check this id registered product
+            if record["id_registered_product"] not in list_id_registered_product:
+                list_id_registered_product.append(record["id_registered_product"])
+                barcode = record["barcode"]
+                product_name_fr = record["product_name_fr"]
+                url = record["url"]
+                name_store = record["name_store"]
+                nutrition_grade = record["nutrition_grade"]
+                id_registered_product = record["id_registered_product"]
+
+                prod = Product(barcode=barcode, product_name_fr=product_name_fr, url=url, nutrition_grade=nutrition_grade, brands=None, stores=name_store)
+                
+                #We create the dict of product under the form { "num" : "product"}
+                dict_of_product.update({str(id_registered_product) : prod})
+
+            #else, we add the store to the product
+            else:
+                name_store = record["name_store"]
+                dict_of_product[str(record["id_registered_product"])].stores.append(Store(record["name_store"]))
+        
+        return dict_of_product
+
+
 
 
 

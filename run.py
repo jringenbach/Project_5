@@ -68,6 +68,17 @@ while not exit_program:
                 link_to_database.insert_datas_to_database(openfoodfacts_dict)
 
 
+        #If the user wants to delete the table from the database
+        elif database_menu_input == "2":
+            link_to_database = LinkDB()
+
+            #We try to execute the "creation tables" script
+            try:
+                link_to_database.execute_sql_script_from_file("SQL/delete_tables.sql")
+            except:
+                print("Couldn't delete table from database")
+
+
         #Exit the program from database menu
         elif database_menu_input == "4":
             exit_program = True
@@ -75,28 +86,42 @@ while not exit_program:
 
     #If the user chooses "My nutritional Program" in the main menu
     elif main_menu_input == "2":
+
+        nutritional_menu = Menu("nutritional_program_menu")
+        nutritional_menu_input = nutritional_menu.input()
         
         link_to_database = LinkDB()
 
-        #We get the list of the categories from the database and we display it as a menu
-        dict_of_categorie = link_to_database.get_dict_of_categories_from_database()
-        categorie_menu = Menu(None, dict_of_categorie)
-        categorie_chosen = categorie_menu.input()
 
-        #We get the dict of product from the categorie chosen by the user
-        dict_of_products = link_to_database.get_dict_of_products_from_database(dict_of_categorie[categorie_chosen].id_categorie)
-        product_menu = Menu(None, dict_of_products)
-        num_product_chosen = product_menu.input()
-        product_chosen = dict_of_products[num_product_chosen]
+        #If the user want to find a substition product
+        if nutritional_menu_input == "1":
 
-        #We get the list of product with better nutrition grade and display them
-        list_product_with_better_nutrition_grade = link_to_database.get_list_of_product_with_better_nutrition_grade(dict_of_products, dict_of_products[num_product_chosen])
-        product_substitute = data_treatment.print_list_of_products(list_product_with_better_nutrition_grade)
+            #We get the list of the categories from the database and we display it as a menu
+            dict_of_categorie = link_to_database.get_dict_of_categories_from_database()
+            categorie_menu = Menu(None, dict_of_categorie)
+            categorie_chosen = categorie_menu.input()
 
-        #We insert the product chosen and its substitution product into the database
-        if product_substitute is not None:
-            registeredproductdb_to_insert = RegisteredProductDB(product_chosen.barcode, product_substitute.barcode)
-            registeredproductdb_to_insert.insert_to_database(link_to_database.db)
+            #We get the dict of product from the categorie chosen by the user
+            dict_of_products = link_to_database.get_dict_of_products_from_database(dict_of_categorie[categorie_chosen].id_categorie)
+            product_menu = Menu(None, dict_of_products)
+            num_product_chosen = product_menu.input()
+            product_chosen = dict_of_products[num_product_chosen]
+
+            #We get the list of product with better nutrition grade and display them
+            list_product_with_better_nutrition_grade = link_to_database.get_list_of_product_with_better_nutrition_grade(dict_of_products, dict_of_products[num_product_chosen])
+            product_substitute = data_treatment.print_list_of_products(list_product_with_better_nutrition_grade)
+
+            #We insert the product chosen and its substitution product into the database
+            if product_substitute is not None:
+                registeredproductdb_to_insert = RegisteredProductDB(product_chosen.barcode, product_substitute.barcode)
+                registeredproductdb_to_insert.insert_to_database(link_to_database.db)
+
+
+        #If the user wants to see the product he/she has already looked for substitute
+        elif nutritional_menu_input == "2":
+            print("Retrouver mes aliments substitués")
+            dict_product_and_substitute = link_to_database.get_list_of_product_and_substitute_from_database()
+            data_treatment.print_product_and_substitute(dict_product_and_substitute)
 
         
 
