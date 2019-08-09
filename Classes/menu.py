@@ -189,15 +189,22 @@ class Menu:
 
     
 
-    def input(self):
+    def input(self, value_error = False):
         """Display the menu while the user hasn't chosen the right option"""
         menu_input = 0
 
-        #While the user chose the wrong main menu, we display it again
-        while int(menu_input) < 1 or int(menu_input) > self.num_options:
-            self.display()
-            menu_input = input("=> ")
-            os.system("clear")
+        try:
+            #While the user chose the wrong main menu, we display it again
+            while int(menu_input) < 1 or int(menu_input) > self.num_options:
+                if value_error == True:
+                    print("Vous devez insérer un nombre entre 1 et "+str(self.num_options))
+                self.display()
+                menu_input = input("=> ")
+                os.system("cls||clear")
+
+        except ValueError:
+            os.system("cls||clear")
+            menu_input = self.input(True)
 
         return menu_input
 

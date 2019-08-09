@@ -4,8 +4,7 @@
         "main_menu" : {
             "1" : "Base de données",
             "2" : "Mon programme nutritionnel",
-            "3" : "Options",
-            "4" : "Quitter"
+            "3" : "Quitter"
         },
         "database_menu" : {
             "1" : "Insérer des données depuis openfoodfacts",
@@ -16,6 +15,10 @@
         "nutritional_program_menu":{
             "1" : "Quel aliment souhaitez-vous remplacer?",
             "2" : "Retrouver mes aliments substitués"
+        },
+        "register_product_menu":{
+            "1" : "Enregistrer le produit de substitution",
+            "2" : "Ne pas enregistrer le produit"
         }
     },
     "en":{
@@ -23,8 +26,7 @@
         "main_menu" : {
             "1" : "Database",
             "2" : "My nutritional program",
-            "3" : "Options",
-            "4" : "Exit"
+            "3" : "Exit"
         },
         "database_menu" : {
             "1" : "Insert datas from openfoodfacts",
@@ -35,6 +37,10 @@
         "nutritional_program_menu":{
             "1" : "What food would you like to substitute?",
             "2" : "Find my substituted food"
+        },
+        "register_product_menu":{
+            "1" : "Save the substitution product",
+            "2" : "Do not save the substitution product"
         }
     }
 }

@@ -45,8 +45,6 @@ class Categorie:
     def get_products_by_categorie(self):
         """Get a list of products by categorie and set self.products"""
 
-        print("Getting products by Categorie.")
-
         params = {
             "action" : "process",
             "json" : 1,
@@ -69,11 +67,11 @@ class Categorie:
 
 
 
-
     def set_products_list(self, products_json):
-        """Set the products list for this categorie"""
+        """Set the products list for this categorie
+        
+        products_json : products in a json format"""
 
-        print("Setting products list for : "+self.categorie_name)
 
         for product in products_json:
             #If the product has a product name, a brand and a nutrition grade, we add it to the

@@ -65,14 +65,13 @@ while not exit_program:
                 print("Tables already exist.")
             finally:
                 link_to_database.link_classes_to_orm(openfoodfacts_dict)
-                link_to_database.insert_datas_to_database(openfoodfacts_dict)
 
 
         #If the user wants to delete the table from the database
         elif database_menu_input == "2":
             link_to_database = LinkDB()
 
-            #We try to execute the "creation tables" script
+            #We try to execute the "deletion tables" script
             try:
                 link_to_database.execute_sql_script_from_file("SQL/delete_tables.sql")
             except:
@@ -111,10 +110,16 @@ while not exit_program:
             list_product_with_better_nutrition_grade = link_to_database.get_list_of_product_with_better_nutrition_grade(dict_of_products, dict_of_products[num_product_chosen])
             product_substitute = data_treatment.print_list_of_products(list_product_with_better_nutrition_grade)
 
-            #We insert the product chosen and its substitution product into the database
-            if product_substitute is not None:
-                registeredproductdb_to_insert = RegisteredProductDB(product_chosen.barcode, product_substitute.barcode)
-                registeredproductdb_to_insert.insert_to_database(link_to_database.db)
+            register_product_menu = Menu("register_product_menu")
+            register_product_input = register_product_menu.input()
+
+            #If the user wants to register the product of substitution in the database
+            if register_product_input == "1":
+
+                #We insert the product chosen and its substitution product into the database
+                if product_substitute is not None:
+                    registeredproductdb_to_insert = RegisteredProductDB(product_chosen.barcode, product_substitute.barcode)
+                    registeredproductdb_to_insert.insert_to_database(link_to_database.db)
 
 
         #If the user wants to see the product he/she has already looked for substitute
